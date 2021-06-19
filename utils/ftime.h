@@ -18,11 +18,11 @@
 
 #include "ftime_useful_defs.h"
 
-#ifndef _WIN32
+#if HAS_SYS_TIME_H
 #  include <sys/time.h>
 #  include <unistd.h>
-#else
 
+#else
 struct timeval {
     seconds_t tv_sec;
     useconds_t tv_usec;

@@ -3,6 +3,11 @@ project(IrregularVerbs LANGUAGES C) # C program
 set(CMAKE_C_STANDARD 11)            # C11 standard
 add_executable(${PROJECT_NAME})
 
+# Checks for include files
+include(CheckIncludeFile)
+check_include_file("sys/time.h" HAS_SYS_TIME_H)
+add_compile_definitions(HAS_SYS_TIME_H=$<BOOL:${HAS_SYS_TIME_H}>)
+
 # Directories settings
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
 include_directories(utils Texts .)
@@ -46,12 +51,12 @@ endif()
 set(WarningsAsErrors FALSE)
 if(MSVC)
     add_compile_options(/W4)
-    if (${WarningsAsErrors})
+    if (WarningsAsErrors)
         add_compile_options(/WX)
     endif()
 else()
     add_compile_options(-Wall -Wextra -pedantic)
-    if (${WarningsAsErrors})
+    if (WarningsAsErrors)
         add_compile_options(-Werror)
     endif()
 endif()
